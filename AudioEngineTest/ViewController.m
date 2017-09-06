@@ -85,7 +85,6 @@ static AudioStreamBasicDescription AudioUnitStreamInputFormat (double iSampleRat
 	
 	return asbd;
 }
-// DGV: if the sample rate changes on the output device, tear down the audio graph and start over
 static void streamFormatCallback( void* inRefCon, AudioUnit inUnit, AudioUnitPropertyID inID, AudioUnitScope inScope, AudioUnitElement inElement)
 {
 	NSLog(@"called streamFormat");
@@ -137,7 +136,6 @@ static void streamFormatCallback( void* inRefCon, AudioUnit inUnit, AudioUnitPro
 	
 	AudioStreamBasicDescription audioUnitStreamInputFormat = AudioUnitStreamInputFormat([AVAudioSession sharedInstance].sampleRate);
 	
-	// set the input stream format, this is the format of the audio for ioUnit input (our output)
 	result = AudioUnitSetProperty(_audioEngine.outputNode.audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &audioUnitStreamInputFormat, sizeof(AudioStreamBasicDescription));
 	CheckResult(result, "Could not set stream format property listener");
 }
